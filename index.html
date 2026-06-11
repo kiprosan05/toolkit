@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CIEL Cyber Toolkit - Password Generator</title>
+    <style>
+        :root {
+            --bg-color: #0d1117;
+            --panel-bg: #161b22;
+            --border-color: #30363d;
+            --text-color: #c9d1d9;
+            --accent-color: #58a6ff;
+            --success-color: #2ea44f;
+            --warning-color: #d29922;
+            --danger-color: #f85149;
+            --neon-green: #39ff14;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 650px;
+            margin-top: 10px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 25px;
+            border-bottom: 2px dashed var(--border-color);
+            padding-bottom: 15px;
+            width: 100%;
+        }
+
+        header h1 {
+            color: var(--neon-green);
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 1.8rem;
+            letter-spacing: 2px;
+            margin-bottom: 5px;
+        }
+
+        header p {
+            color: #8b949e;
+            font-size: 0.9rem;
+        }
+
+        .panel {
+            background-color: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+
+        .panel h2 {
+            font-size: 1.3rem;
+            color: var(--accent-color);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 0.85rem;
+            color: #8b949e;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .output-box {
+            background-color: #070a0e;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 14px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 1.2rem;
+            color: #fff;
+            word-break: break-all;
+            min-height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+
+        .btn {
+            background-color: var(--success-color);
+            color: white;
+            border: none;
+            padding: 12px 18px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            width: 100%;
+            transition: background-color 0.2s;
+        }
+
+        .btn:hover {
+            background-color: #2c974b;
+        }
+
+        .btn-secondary {
+            background-color: #21262d;
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            width: auto;
+            padding: 6px 12px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .btn-secondary:hover {
+            background-color: #30363d;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            text-transform: none;
+            color: var(--text-color);
+            font-size: 0.95rem;
+        }
+
+        .checkbox-label input {
+            accent-color: var(--accent-color);
+            width: 18px;
+            height: 18px;
+        }
+
+        .range-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .range-container input {
+            flex: 1;
+            accent-color: var(--accent-color);
+            height: 6px;
+            cursor: pointer;
+        }
+
+        .range-val {
+            font-family: 'Courier New', Courier, monospace;
+            font-weight: bold;
+            color: var(--neon-green);
+            font-size: 1.2rem;
+            width: 30px;
+            text-align: right;
+        }
+
+        .strength-meter {
+            height: 6px;
+            background-color: #21262d;
+            border-radius: 3px;
+            margin-top: 5px;
+            overflow: hidden;
+        }
+
+        .strength-bar {
+            height: 100%;
+            width: 0%;
+            background-color: var(--danger-color);
+            transition: all 0.3s;
+        }
+
+        .strength-text {
+            font-size: 0.8rem;
+            text-align: right;
+            margin-top: 6px;
+            color: #8b949e;
+            font-weight: 500;
+        }
+
+        @media (max-width: 500px) {
+            .options-grid {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>[ CIEL TOOLKIT BY KENZO ]</h1>
+            <p>Outil d'administration de mot de passes par Kenzo S.</p>
+        </header>
+
+        <div class="panel">
+            <h2>🔑 Générateur de Clés Sécurisées</h2>
+            
+            <div class="form-group">
+                <label>Mot de passe généré</label>
+                <div class="output-box">
+                    <span id="password-display">Chargement...</span>
+                    <button class="btn btn-secondary" onclick="copyPassword()">Copier</button>
+                </div>
+                <div class="strength-meter">
+                    <div id="strength-bar" class="strength-bar"></div>
+                </div>
+                <div id="strength-text" class="strength-text">Force : Évaluation...</div>
+            </div>
+
+            <div class="form-group">
+                <label>Longueur : <span id="length-val" class="range-val">14</span> caractères</label>
+                <div class="range-container">
+                    <input type="range" id="password-length" min="6" max="32" value="14" oninput="updateLength(this.value)">
+                </div>
+            </div>
+
+            <div class="options-grid">
+                <label class="checkbox-label">
+                    <input type="checkbox" id="include-uppercase" checked> Majuscules (A-Z)
+                </label>
+                <label class="checkbox-label">
+                    <input type="checkbox" id="include-lowercase" checked> Minuscules (a-z)
+                </label>
+                <label class="checkbox-label">
+                    <input type="checkbox" id="include-numbers" checked> Chiffres (0-9)
+                </label>
+                <label class="checkbox-label">
+                    <input type="checkbox" id="include-symbols" checked> Symboles (!@#$%)
+                </label>
+            </div>
+
+            <button class="btn" onclick="generatePassword()">GÉNÉRER LA CLÉ SÉCURISÉE</button>
+        </div>
+    </div>
+
+    <script>
+        // Met à jour l'affichage de la longueur en temps réel
+        function updateLength(val) {
+            document.getElementById('length-val').innerText = val;
+        }
+
+        // Fonction principale de génération
+        function generatePassword() {
+            const length = parseInt(document.getElementById('password-length').value);
+            const hasUpper = document.getElementById('include-uppercase').checked;
+            const hasLower = document.getElementById('include-lowercase').checked;
+            const hasNumber = document.getElementById('include-numbers').checked;
+            const hasSymbol = document.getElementById('include-symbols').checked;
+
+            const uppercaseChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            const lowercaseChars = 'abcdefghijklmnopqrstuvwxyz';
+            const numberChars = '0123456789';
+            const symbolChars = '!@#$%^&*()_+~`|}{[]\\:;?><,./-=';
+
+            let allowedChars = '';
+            let mandatoryChars = [];
+
+            // On construit notre réservoir de caractères et on prépare les obligatoires
+            if (hasUpper) { allowedChars += uppercaseChars; mandatoryChars.push(uppercaseChars[Math.floor(Math.random() * uppercaseChars.length)]); }
+            if (hasLower) { allowedChars += lowercaseChars; mandatoryChars.push(lowercaseChars[Math.floor(Math.random() * lowercaseChars.length)]); }
+            if (hasNumber) { allowedChars += numberChars; mandatoryChars.push(numberChars[Math.floor(Math.random() * numberChars.length)]); }
+            if (hasSymbol) { allowedChars += symbolChars; mandatoryChars.push(symbolChars[Math.floor(Math.random() * symbolChars.length)]); }
+
+            // Si aucune case n'est cochée
+            if (allowedChars === '') {
+                document.getElementById('password-display').innerText = 'Cochez au moins une option !';
+                updateStrengthBar(0);
+                return;
+            }
+
+            let generatedPassword = '';
+            
+            // Étape 1 : On intègre de force un exemplaire de chaque type sélectionné
+            for (let i = 0; i < mandatoryChars.length; i++) {
+                generatedPassword += mandatoryChars[i];
+            }
+
+            // Étape 2 : On complète de façon aléatoire jusqu'à atteindre la bonne longueur
+            for (let i = generatedPassword.length; i < length; i++) {
+                const randomIndex = Math.floor(Math.random() * allowedChars.length);
+                generatedPassword += allowedChars[randomIndex];
+            }
+
+            // Étape 3 : On mélange l'ensemble pour éviter que les types forcés soient toujours au début
+            generatedPassword = generatedPassword.split('').sort(() => 0.5 - Math.random()).join('');
+
+            // Affichage du résultat
+            document.getElementById('password-display').innerText = generatedPassword;
+            evaluateStrength(generatedPassword, length, hasUpper, hasLower, hasNumber, hasSymbol);
+        }
+
+        // Calcul de la robustesse de la clé générée
+        function evaluateStrength(password, length, hasUpper, hasLower, hasNumber, hasSymbol) {
+            let score = 0;
+            
+            // Évaluation basée sur la longueur
+            if (length >= 8) score++;
+            if (length >= 14) score++; // Norme recommandée pour les comptes sensibles
+            
+            // Évaluation basée sur la diversité des caractères
+            let typesCount = (hasUpper ? 1 : 0) + (hasLower ? 1 : 0) + (hasNumber ? 1 : 0) + (hasSymbol ? 1 : 0);
+            score += typesCount;
+
+            // Transformation en pourcentage pour la jauge (score max possible = 6)
+            let percentage = (score / 6) * 100;
+            updateStrengthBar(percentage);
+        }
+
+        // Met à jour la couleur et le texte sous la jauge
+        function updateStrengthBar(percentage) {
+            const bar = document.getElementById('strength-bar');
+            const text = document.getElementById('strength-text');
+            bar.style.width = percentage + '%';
+
+            if (percentage <= 35) {
+                bar.style.backgroundColor = 'var(--danger-color)';
+                text.innerText = 'Force : Faible (Vulnérable aux attaques de dictionnaire)';
+                text.style.color = 'var(--danger-color)';
+            } else if (percentage <= 70) {
+                bar.style.backgroundColor = 'var(--warning-color)';
+                text.innerText = 'Force : Moyenne (Acceptable pour des comptes secondaires)';
+                text.style.color = 'var(--warning-color)';
+            } else {
+                bar.style.backgroundColor = 'var(--success-color)';
+                text.innerText = 'Force : Très Forte (Conforme aux exigences ANSSI)';
+                text.style.color = 'var(--success-color)';
+            }
+        }
+
+        // Copie automatique dans le presse-papiers
+        function copyPassword() {
+            const passText = document.getElementById('password-display').innerText;
+            if (passText === 'Cochez au moins une option !') return;
+            
+            navigator.clipboard.writeText(passText);
+            alert('Clé de sécurité copiée avec succès !');
+        }
+
+        // On lance automatiquement une première génération au démarrage de l'application
+        window.onload = function() {
+            generatePassword();
+        };
+    </script>
+</body>
+</html>
