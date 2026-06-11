@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CIEL Cyber Toolkit - Password Generator</title>
+    <title>[ CIEL Cyber & Elec Toolkit ]</title>
     <style>
         :root {
             --bg-color: #0d1117;
@@ -42,7 +42,7 @@
 
         header {
             text-align: center;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             border-bottom: 2px dashed var(--border-color);
             padding-bottom: 15px;
             width: 100%;
@@ -51,7 +51,7 @@
         header h1 {
             color: var(--neon-green);
             font-family: 'Courier New', Courier, monospace;
-            font-size: 1.8rem;
+            font-size: 1.6rem;
             letter-spacing: 2px;
             margin-bottom: 5px;
         }
@@ -61,33 +61,75 @@
             font-size: 0.9rem;
         }
 
+        /* Grille d'onglets propre pour mobile */
+        .tabs {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+            margin-bottom: 20px;
+            width: 100%;
+        }
+
+        .tab-btn {
+            background-color: #21262d;
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            padding: 12px 5px;
+            cursor: pointer;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+            font-family: 'Courier New', Courier, monospace;
+            text-align: center;
+        }
+
+        .tab-btn:hover {
+            background-color: #30363d;
+        }
+
+        .tab-btn.active {
+            background-color: var(--accent-color);
+            color: #0d1117;
+            border-color: var(--accent-color);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
         .panel {
             background-color: var(--panel-bg);
             border: 1px solid var(--border-color);
             border-radius: 8px;
-            padding: 25px;
-            margin-bottom: 20px;
+            padding: 22px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            margin-bottom: 20px;
         }
 
         .panel h2 {
-            font-size: 1.3rem;
+            font-size: 1.25rem;
             color: var(--accent-color);
-            margin-bottom: 20px;
+            margin-bottom: 18px;
             display: flex;
             align-items: center;
             gap: 10px;
             border-bottom: 1px solid var(--border-color);
             padding-bottom: 8px;
+            font-family: 'Courier New', Courier, monospace;
         }
 
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
 
         label {
             display: block;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             font-size: 0.85rem;
             color: #8b949e;
             font-weight: 600;
@@ -100,7 +142,7 @@
             border-radius: 6px;
             padding: 14px;
             font-family: 'Courier New', Courier, monospace;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             color: #fff;
             word-break: break-all;
             min-height: 50px;
@@ -108,6 +150,33 @@
             align-items: center;
             justify-content: space-between;
             margin-bottom: 15px;
+        }
+
+        .code-box {
+            background-color: #05070a;
+            border: 1px solid #1f242c;
+            border-radius: 6px;
+            padding: 12px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.85rem;
+            color: #38ef7d;
+            overflow-x: auto;
+        }
+
+        input[type="text"], input[type="number"], select {
+            width: 100%;
+            background-color: #070a0e;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 12px;
+            color: white;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 1.1rem;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--accent-color);
         }
 
         .btn {
@@ -131,15 +200,10 @@
             background-color: #21262d;
             border: 1px solid var(--border-color);
             color: var(--text-color);
-            width: auto;
             padding: 6px 12px;
             font-size: 0.85rem;
             cursor: pointer;
             border-radius: 4px;
-        }
-
-        .btn-secondary:hover {
-            background-color: #30363d;
         }
 
         .options-grid {
@@ -154,15 +218,7 @@
             align-items: center;
             gap: 10px;
             cursor: pointer;
-            text-transform: none;
             color: var(--text-color);
-            font-size: 0.95rem;
-        }
-
-        .checkbox-label input {
-            accent-color: var(--accent-color);
-            width: 18px;
-            height: 18px;
         }
 
         .range-container {
@@ -173,8 +229,6 @@
 
         .range-container input {
             flex: 1;
-            accent-color: var(--accent-color);
-            height: 6px;
             cursor: pointer;
         }
 
@@ -184,7 +238,6 @@
             color: var(--neon-green);
             font-size: 1.2rem;
             width: 30px;
-            text-align: right;
         }
 
         .strength-meter {
@@ -202,19 +255,67 @@
             transition: all 0.3s;
         }
 
-        .strength-text {
+        .info-note {
             font-size: 0.8rem;
-            text-align: right;
-            margin-top: 6px;
             color: #8b949e;
-            font-weight: 500;
+            margin-top: -10px;
+            margin-bottom: 15px;
+            font-style: italic;
+        }
+
+        .resistor-display {
+            background-color: #dfc49e;
+            height: 40px;
+            width: 100%;
+            border-radius: 20px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 0 40px;
+            margin-bottom: 20px;
+            border: 2px solid #bda380;
+        }
+
+        .resistor-band {
+            width: 12px;
+            height: 100%;
+            transition: background-color 0.2s;
+        }
+
+        .color-preview {
+            width: 100%;
+            height: 80px;
+            border-radius: 8px;
+            border: 2px solid var(--border-color);
+            margin-bottom: 20px;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.6);
+            transition: background-color 0.1s;
+        }
+
+        .rgb-slider input {
+            width: 100%;
+            height: 8px;
+            border-radius: 4px;
+            appearance: none;
+            outline: none;
+        }
+
+        #slide-red { background: linear-gradient(to right, #000, #ff0000); }
+        #slide-green { background: linear-gradient(to right, #000, #00ff00); }
+        #slide-blue { background: linear-gradient(to right, #000, #0000ff); }
+
+        .rgb-slider input::-webkit-slider-thumb {
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: #fff;
+            cursor: pointer;
+            border: 2px solid #000;
         }
 
         @media (max-width: 500px) {
-            .options-grid {
-                grid-template-columns: 1fr;
-                gap: 10px;
-            }
+            .options-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -222,58 +323,152 @@
 
     <div class="container">
         <header>
-            <h1>[ CIEL TOOLKIT BY KENZO ]</h1>
-            <p>Outil d'administrations pour les CIEL par Kenzo S.</p>
+            <h1>[ CIEL TOOLKIT BY KENZO]</h1>
+            <p>Toolkit Info BY KENZO</p>
         </header>
 
-        <div class="panel">
-            <h2>🔑 Générateur de Clés Sécurisées</h2>
-            
-            <div class="form-group">
-                <label>Mot de passe généré</label>
-                <div class="output-box">
-                    <span id="password-display">Chargement...</span>
-                    <button class="btn btn-secondary" onclick="copyPassword()">Copier</button>
-                </div>
-                <div class="strength-meter">
-                    <div id="strength-bar" class="strength-bar"></div>
-                </div>
-                <div id="strength-text" class="strength-text">Force : Évaluation...</div>
-            </div>
-
-            <div class="form-group">
-                <label>Longueur : <span id="length-val" class="range-val">14</span> caractères</label>
-                <div class="range-container">
-                    <input type="range" id="password-length" min="6" max="32" value="14" oninput="updateLength(this.value)">
-                </div>
-            </div>
-
-            <div class="options-grid">
-                <label class="checkbox-label">
-                    <input type="checkbox" id="include-uppercase" checked> Majuscules (A-Z)
-                </label>
-                <label class="checkbox-label">
-                    <input type="checkbox" id="include-lowercase" checked> Minuscules (a-z)
-                </label>
-                <label class="checkbox-label">
-                    <input type="checkbox" id="include-numbers" checked> Chiffres (0-9)
-                </label>
-                <label class="checkbox-label">
-                    <input type="checkbox" id="include-symbols" checked> Symboles (!@#$%)
-                </label>
-            </div>
-
-            <button class="btn" onclick="generatePassword()">GÉNÉRER LA CLÉ SÉCURISÉE</button>
+        <div class="tabs">
+            <button class="tab-btn active" id="btn-cyber" onclick="switchTab('cyber')">🔑 CYBER</button>
+            <button class="tab-btn" id="btn-num" onclick="switchTab('num')">🔢 CONV BASES</button>
+            <button class="tab-btn" id="btn-elec" onclick="switchTab('elec')">⚡ RÉSISTANCE</button>
+            <button class="tab-btn" id="btn-rgb" onclick="switchTab('rgb')">🎨 LED RGB</button>
         </div>
+
+        <div id="cyber-tab" class="tab-content active">
+            <div class="panel">
+                <h2>🔑 Générateur de Clés Sécurisées</h2>
+                <div class="form-group">
+                    <label>Mot de passe généré</label>
+                    <div class="output-box">
+                        <span id="password-display">Chargement...</span>
+                        <button class="btn btn-secondary" onclick="copyPassword()">Copier</button>
+                    </div>
+                    <div class="strength-meter">
+                        <div id="strength-bar" class="strength-bar"></div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Longueur : <span id="length-val" class="range-val">14</span> caractères</label>
+                    <div class="range-container">
+                        <input type="range" id="password-length" min="6" max="32" value="14" oninput="updateLength(this.value)">
+                    </div>
+                </div>
+
+                <div class="options-grid">
+                    <label class="checkbox-label"><input type="checkbox" id="include-uppercase" checked> Majuscules</label>
+                    <label class="checkbox-label"><input type="checkbox" id="include-lowercase" checked> Minuscules</label>
+                    <label class="checkbox-label"><input type="checkbox" id="include-numbers" checked> Chiffres</label>
+                    <label class="checkbox-label"><input type="checkbox" id="include-symbols" checked> Symboles</label>
+                </div>
+                <button class="btn" onclick="generatePassword()">GÉNÉRER LA CLÉ SÉCURISÉE</button>
+            </div>
+        </div>
+
+        <div id="num-tab" class="tab-content">
+            <div class="panel">
+                <h2>🔢 Convertisseur Décimal / Binaire / Hexa</h2>
+                <p class="info-note">Modifie n'importe quelle case pour convertir instantanément.</p>
+                <div class="form-group">
+                    <label>Décimal (Base 10)</label>
+                    <input type="number" id="input-decimal" placeholder="Ex: 255" oninput="convertFromDecimal(this.value)">
+                </div>
+                <div class="form-group">
+                    <label>Binaire (Base 2)</label>
+                    <input type="text" id="input-binary" placeholder="Ex: 11111111" oninput="convertFromBinary(this.value)">
+                </div>
+                <div class="form-group">
+                    <label>Hexadécimal (Base 16)</label>
+                    <input type="text" id="input-hex" placeholder="Ex: FF" oninput="convertFromHex(this.value)">
+                </div>
+                <button class="btn" style="background-color: #21262d; border: 1px solid var(--border-color);" onclick="clearConverter()">RÉINITIALISER</button>
+            </div>
+        </div>
+
+        <div id="elec-tab" class="tab-content">
+            <div class="panel">
+                <h2>⚡ Code Couleur Résistance</h2>
+                <div class="resistor-display">
+                    <div id="band1-view" class="resistor-band" style="background-color: brown;"></div>
+                    <div id="band2-view" class="resistor-band" style="background-color: black;"></div>
+                    <div id="band3-view" class="resistor-band" style="background-color: red;"></div>
+                    <div id="band4-view" class="resistor-band" style="background-color: gold;"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label>1er Anneau</label>
+                    <select id="ring1" onchange="calculateResistor()">
+                        <option value="0">Noir (0)</option><option value="1" selected>Marron (1)</option><option value="2">Rouge (2)</option><option value="3">Orange (3)</option><option value="4">Jaune (4)</option><option value="5">Vert (5)</option><option value="6">Bleu (6)</option><option value="7">Violet (7)</option><option value="8">Gris (8)</option><option value="9">Blanc (9)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>2ème Anneau</label>
+                    <select id="ring2" onchange="calculateResistor()">
+                        <option value="0" selected>Noir (0)</option><option value="1">Marron (1)</option><option value="2">Rouge (2)</option><option value="3">Orange (3)</option><option value="4">Jaune (4)</option><option value="5">Vert (5)</option><option value="6">Bleu (6)</option><option value="7">Violet (7)</option><option value="8">Gris (8)</option><option value="9">Blanc (9)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Multiplicateur</label>
+                    <select id="ring3" onchange="calculateResistor()">
+                        <option value="1">Noir (x1)</option><option value="10">Marron (x10)</option><option value="100" selected>Rouge (x100)</option><option value="1000">Orange (x1k)</option><option value="10000">Jaune (x10k)</option><option value="100000">Vert (x100k)</option><option value="1000000">Bleu (x1M)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Tolérance</label>
+                    <select id="ring4" onchange="calculateResistor()">
+                        <option value="1">Marron (±1%)</option><option value="2">Rouge (±2%)</option><option value="5" selected>Or (±5%)</option><option value="10">Argent (±10%)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Valeur calculée :</label>
+                    <div id="resistor-result" class="output-box" style="color: var(--neon-green); font-weight: bold;">1000 Ohms (1 kΩ) ±5%</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="rgb-tab" class="tab-content">
+            <div class="panel">
+                <h2>🎨 Mélangeur LED RGB & Codes HTML/CSS</h2>
+                <div id="color-preview" class="color-preview" style="background-color: rgb(0, 162, 255);"></div>
+
+                <div class="form-group rgb-slider">
+                    <label style="color: #ff5252;">Rouge : <span id="val-red" class="range-val" style="color: #ff5252;">0</span></label>
+                    <input type="range" id="slide-red" min="0" max="255" value="0" oninput="updateRGB()">
+                </div>
+                <div class="form-group rgb-slider">
+                    <label style="color: #2ecc71;">Vert : <span id="val-green" class="range-val" style="color: #2ecc71;">162</span></label>
+                    <input type="range" id="slide-green" min="0" max="255" value="162" oninput="updateRGB()">
+                </div>
+                <div class="form-group rgb-slider">
+                    <label style="color: #3498db;">Bleu : <span id="val-blue" class="range-val" style="color: #3498db;">255</span></label>
+                    <input type="range" id="slide-blue" min="0" max="255" value="255" oninput="updateRGB()">
+                </div>
+
+                <div class="form-group">
+                    <label>Code Couleur Hexadécimal (Dièse)</label>
+                    <div id="out-hex" class="output-box" style="color: var(--neon-green); font-weight: bold; font-size: 1.3rem;">#00A2FF</div>
+                </div>
+
+                <div class="form-group">
+                    <label>Format RGB standard</label>
+                    <div id="out-rgb" class="output-box" style="font-size: 1.1rem; min-height: 40px;">rgb(0, 162, 255)</div>
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <script>
-        // Met à jour l'affichage de la longueur en temps réel
-        function updateLength(val) {
-            document.getElementById('length-val').innerText = val;
+        // --- LOGIQUE ONGLETS ---
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            document.getElementById('btn-' + tabName).classList.add('active');
+            document.getElementById(tabName + '-tab').classList.add('active');
         }
 
-        // Fonction principale de génération
+        // --- MOT DE PASSE ---
+        function updateLength(val) { document.getElementById('length-val').innerText = val; }
         function generatePassword() {
             const length = parseInt(document.getElementById('password-length').value);
             const hasUpper = document.getElementById('include-uppercase').checked;
@@ -284,95 +479,134 @@
             const uppercaseChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
             const lowercaseChars = 'abcdefghijklmnopqrstuvwxyz';
             const numberChars = '0123456789';
-            const symbolChars = '!@#$%^&*()_+~`|}{[]\\:;?><,./-=';
+            const symbolChars = '!@#$%^&*()_+-=';
 
             let allowedChars = '';
             let mandatoryChars = [];
 
-            // On construit notre réservoir de caractères et on prépare les obligatoires
             if (hasUpper) { allowedChars += uppercaseChars; mandatoryChars.push(uppercaseChars[Math.floor(Math.random() * uppercaseChars.length)]); }
             if (hasLower) { allowedChars += lowercaseChars; mandatoryChars.push(lowercaseChars[Math.floor(Math.random() * lowercaseChars.length)]); }
             if (hasNumber) { allowedChars += numberChars; mandatoryChars.push(numberChars[Math.floor(Math.random() * numberChars.length)]); }
             if (hasSymbol) { allowedChars += symbolChars; mandatoryChars.push(symbolChars[Math.floor(Math.random() * symbolChars.length)]); }
 
-            // Si aucune case n'est cochée
-            if (allowedChars === '') {
-                document.getElementById('password-display').innerText = 'Cochez au moins une option !';
-                updateStrengthBar(0);
-                return;
-            }
+            if (allowedChars === '') { document.getElementById('password-display').innerText = 'Cochez une case !'; return; }
 
             let generatedPassword = '';
-            
-            // Étape 1 : On intègre de force un exemplaire de chaque type sélectionné
-            for (let i = 0; i < mandatoryChars.length; i++) {
-                generatedPassword += mandatoryChars[i];
-            }
-
-            // Étape 2 : On complète de façon aléatoire jusqu'à atteindre la bonne longueur
+            for (let i = 0; i < mandatoryChars.length; i++) { generatedPassword += mandatoryChars[i]; }
             for (let i = generatedPassword.length; i < length; i++) {
-                const randomIndex = Math.floor(Math.random() * allowedChars.length);
-                generatedPassword += allowedChars[randomIndex];
+                generatedPassword += allowedChars[Math.floor(Math.random() * allowedChars.length)];
             }
 
-            // Étape 3 : On mélange l'ensemble pour éviter que les types forcés soient toujours au début
             generatedPassword = generatedPassword.split('').sort(() => 0.5 - Math.random()).join('');
-
-            // Affichage du résultat
             document.getElementById('password-display').innerText = generatedPassword;
-            evaluateStrength(generatedPassword, length, hasUpper, hasLower, hasNumber, hasSymbol);
+            evaluateStrength(length, hasUpper, hasLower, hasNumber, hasSymbol);
         }
 
-        // Calcul de la robustesse de la clé générée
-        function evaluateStrength(password, length, hasUpper, hasLower, hasNumber, hasSymbol) {
+        function evaluateStrength(length, hasUpper, hasLower, hasNumber, hasSymbol) {
             let score = 0;
-            
-            // Évaluation basée sur la longueur
             if (length >= 8) score++;
-            if (length >= 14) score++; // Norme recommandée pour les comptes sensibles
-            
-            // Évaluation basée sur la diversité des caractères
+            if (length >= 14) score++;
             let typesCount = (hasUpper ? 1 : 0) + (hasLower ? 1 : 0) + (hasNumber ? 1 : 0) + (hasSymbol ? 1 : 0);
             score += typesCount;
-
-            // Transformation en pourcentage pour la jauge (score max possible = 6)
             let percentage = (score / 6) * 100;
-            updateStrengthBar(percentage);
-        }
-
-        // Met à jour la couleur et le texte sous la jauge
-        function updateStrengthBar(percentage) {
             const bar = document.getElementById('strength-bar');
-            const text = document.getElementById('strength-text');
-            bar.style.width = percentage + '%';
-
-            if (percentage <= 35) {
-                bar.style.backgroundColor = 'var(--danger-color)';
-                text.innerText = 'Force : Faible (Vulnérable aux attaques de dictionnaire)';
-                text.style.color = 'var(--danger-color)';
-            } else if (percentage <= 70) {
-                bar.style.backgroundColor = 'var(--warning-color)';
-                text.innerText = 'Force : Moyenne (Acceptable pour des comptes secondaires)';
-                text.style.color = 'var(--warning-color)';
-            } else {
-                bar.style.backgroundColor = 'var(--success-color)';
-                text.innerText = 'Force : Très Forte (Conforme aux exigences ANSSI)';
-                text.style.color = 'var(--success-color)';
-            }
+            if (percentage <= 35) bar.style.backgroundColor = 'var(--danger-color)';
+            else if (percentage <= 70) bar.style.backgroundColor = 'var(--warning-color)';
+            else bar.style.backgroundColor = 'var(--success-color)';
         }
 
-        // Copie automatique dans le presse-papiers
         function copyPassword() {
-            const passText = document.getElementById('password-display').innerText;
-            if (passText === 'Cochez au moins une option !') return;
-            
-            navigator.clipboard.writeText(passText);
-            alert('Clé de sécurité copiée avec succès !');
+            navigator.clipboard.writeText(document.getElementById('password-display').innerText);
+            alert('Clé copiée !');
         }
 
-        // On lance automatiquement une première génération au démarrage de l'application
+        // --- CONVERTISSEUR DE BASES ---
+        function convertFromDecimal(val) {
+            if (val === '') { clearConverter(); return; }
+            const num = parseInt(val, 10);
+            if (isNaN(num)) return;
+            document.getElementById('input-binary').value = num.toString(2);
+            document.getElementById('input-hex').value = num.toString(16).toUpperCase();
+        }
+        function convertFromBinary(val) {
+            val = val.replace(/\s/g, '');
+            if (val === '') { clearConverter(); return; }
+            if (!/^[01]+$/.test(val)) return;
+            const num = parseInt(val, 2);
+            document.getElementById('input-decimal').value = num;
+            document.getElementById('input-hex').value = num.toString(16).toUpperCase();
+        }
+        function convertFromHex(val) {
+            val = val.replace(/\s/g, '');
+            if (val === '') { clearConverter(); return; }
+            if (!/^[0-9A-Fa-f]+$/.test(val)) return;
+            const num = parseInt(val, 16);
+            document.getElementById('input-decimal').value = num;
+            document.getElementById('input-binary').value = num.toString(2);
+        }
+        function clearConverter() {
+            document.getElementById('input-decimal').value = '';
+            document.getElementById('input-binary').value = '';
+            document.getElementById('input-hex').value = '';
+        }
+
+        // --- CODE COULEUR RÉSISTANCES ---
+        const colorMap = ["#000000", "#8B4513", "#FF0000", "#FFA500", "#FFFF00", "#008000", "#0000FF", "#EE82EE", "#808080", "#FFFFFF"];
+        function calculateResistor() {
+            const r1 = parseInt(document.getElementById('ring1').value);
+            const r2 = parseInt(document.getElementById('ring2').value);
+            const m = parseInt(document.getElementById('ring3').value);
+            const t = document.getElementById('ring4').value;
+
+            document.getElementById('band1-view').style.backgroundColor = colorMap[r1];
+            document.getElementById('band2-view').style.backgroundColor = colorMap[r2];
+            
+            let mColor = "#000000";
+            if (m === 10) mColor = "#8B4513"; if (m === 100) mColor = "#FF0000"; if (m === 1000) mColor = "#FFA500";
+            if (m === 10000) mColor = "#FFFF00"; if (m === 100000) mColor = "#008000"; if (m === 1000000) mColor = "#0000FF";
+            document.getElementById('band3-view').style.backgroundColor = mColor;
+
+            let tColor = "#FFD700";
+            if (t === "1") tColor = "#8B4513"; if (t === "2") tColor = "#FF0000"; if (t === "10") tColor = "#C0C0C0";
+            document.getElementById('band4-view').style.backgroundColor = tColor;
+
+            const finalValue = ((r1 * 10) + r2) * m;
+            let readable = finalValue + " Ω";
+            if (finalValue >= 1000000) readable = (finalValue / 1000000) + " MΩ";
+            else if (finalValue >= 1000) readable = (finalValue / 1000) + " kΩ";
+
+            document.getElementById('resistor-result').innerText = `${readable} ±${t}%`;
+        }
+
+        // --- LED RGB MIXER ---
+        function updateRGB() {
+            const r = document.getElementById('slide-red').value;
+            const g = document.getElementById('slide-green').value;
+            const b = document.getElementById('slide-blue').value;
+
+            document.getElementById('val-red').innerText = r;
+            document.getElementById('val-green').innerText = g;
+            document.getElementById('val-blue').innerText = b;
+
+            // Couleur visuelle
+            document.getElementById('color-preview').style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
+            
+            // Format RGB texte
+            document.getElementById('out-rgb').innerText = `rgb(${r}, ${g}, ${b})`;
+
+            // Format Hexadécimal avec le Dièse (#)
+            const componentToHex = (c) => {
+                const hex = parseInt(c).toString(16).toUpperCase();
+                return hex.length == 1 ? "0" + hex : hex;
+            };
+            const hexString = "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
+            document.getElementById('out-hex').innerText = hexString;
+        }
+
         window.onload = function() {
             generatePassword();
+            calculateResistor();
+            updateRGB();
         };
     </script>
 </body>
